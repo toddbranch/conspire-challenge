@@ -16,6 +16,12 @@ define([
             'click .save': 'save',
         },
 
+        initialize: function() {
+            if (!(this.model instanceof Backbone.Model)) {
+                throw new Error('must be initialized with a model');
+            }
+        },
+
         save: function() {
             this.model.set(this.getData(), {validate: true});
 
