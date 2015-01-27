@@ -12,7 +12,7 @@ define([
     'use strict';
 
     return Backbone.View.extend({
-        className: 'row',
+        className: 'row affiliation',
 
         initialize: function() {
             this.displayView = new DisplayView({model: this.model});

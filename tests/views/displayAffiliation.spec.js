@@ -78,8 +78,7 @@ define([
             it('should put content in its $el', function() {
                 this.view.render();
 
-                // maybe bring in jasmine-jquery to help with this
-                expect(this.view.$el.html().length > 0).toBe(true);
+                expect(this.view.$el).not.toBeEmpty();
             });
         });
     });
