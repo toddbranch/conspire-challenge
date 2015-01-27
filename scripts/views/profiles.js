@@ -17,6 +17,10 @@ define([
         template: Handlebars.compile(template),
 
         initialize: function() {
+            if (!(this.collection instanceof Backbone.Collection)) {
+                throw new Error('must be initialized with a collection');
+            }
+
             this.listenTo(this.collection, 'sync', this.render);
         },
 

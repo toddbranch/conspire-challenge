@@ -42,7 +42,11 @@ define([
             });
 
             it('should ensure the affiliations are sorted', function() {
+                spyOn(this.view.collection, 'sort');
 
+                this.view.render();
+
+                expect(this.view.collection.sort).toHaveBeenCalled();
             });
 
             it('should put content in its $el', function() {

@@ -16,7 +16,7 @@ define([
             }
 
             if (attrs.start_year > attrs.end_year && !_.isNull(attrs.end_year)) {
-                return 'start year must be prior or equal to end year';
+                return 'end year can\'t be before start!';
             }
         },
 
@@ -29,25 +29,25 @@ define([
 
         validateOrganization: function(organization) {
             if (!_.isString(organization) || organization.length === 0) {
-                return 'organization must be a non-empty string';
+                return 'organization can\'t be empty!';
             }
         },
 
         validateTitle: function(title) {
             if (!_.isString(title) || title.length === 0) {
-                return 'title must be a non-empty string';
+                return 'title can\'t be empty!';
             }
         },
 
         validateStartYear: function(startYear) {
             if (!this.isInt(startYear)) {
-                return 'start year must be an integer';
+                return 'start year must be a year!';
             }
         },
 
         validateEndYear: function(endYear) {
             if (!_.isNull(endYear) && !this.isInt(endYear)) {
-                return 'end year must either be empty or an integer';
+                return 'end year must be a year or empty!';
             }
         },
 

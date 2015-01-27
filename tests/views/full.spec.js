@@ -46,6 +46,9 @@ define([
             });
 
             it('should put content in its $el', function() {
+                this.view.render();
+
+                expect(this.view.$el).not.toBeEmpty();
             });
         });
     });

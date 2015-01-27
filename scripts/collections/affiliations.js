@@ -24,11 +24,7 @@ define([
                 return 1;
             }
 
-            if (a > b) {
-                return -1;
-            } else if (a < b) {
-                return 1;
-            }
+            return a > b ? -1 : 1;
         },
 
         comparator: function(a, b) {
