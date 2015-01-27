@@ -20,6 +20,10 @@ define([
         template: Handlebars.compile(template),
 
         initialize: function() {
+            if (!(this.model instanceof Backbone.Model)) {
+                throw new Error('must be initialized with a model');
+            }
+
             this.collection = new AffiliationsCollection(this.model.get('affiliations'));
 
             this.listenTo(this.collection, 'change', this.updateAffiliations);
@@ -31,8 +35,7 @@ define([
         },
 
         updateAffiliations: function() {
-            this.model.set({affiliations: this.collection.toJSON()});
-            this.model.save();
+            this.model.save({affiliations: this.collection.toJSON()});
         },
 
         render: function() {

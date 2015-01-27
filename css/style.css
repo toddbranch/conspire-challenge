@@ -73,14 +73,9 @@ input[type="text"] {
     margin-bottom: 5px;
 }
 
-.affiliations-outer {
-    overflow: hidden;
-    height: 300px;
-}
-
-.affiliations-inner {
+.affiliations {
     overflow: auto;
-    height: 100%;
+    height: 300px;
 }
 
 .affiliation {

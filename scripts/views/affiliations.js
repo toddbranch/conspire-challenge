@@ -38,7 +38,7 @@ define([
 
             this.listenToOnce(model, 'change', this.add);
 
-            this.$('.affiliations-inner').prepend(view.render().$el);
+            this.$('.affiliations').prepend(view.render().$el);
 
             this.$('.add-affiliation').addClass('disabled');
 
@@ -56,7 +56,7 @@ define([
 
             this.collection.each(function(affiliation) {
                 var view = new AffiliationView({model: affiliation});
-                this.$('.affiliations-inner').append(view.render().$el);
+                this.$('.affiliations').append(view.render().$el);
             }, this);
 
             return this;

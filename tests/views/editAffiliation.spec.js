@@ -27,7 +27,38 @@ define([
         });
 
         describe('getData', function() {
+            beforeEach(function() {
+                this.view.render();
+            });
 
+            it('should return null for start_year and end_year if they aren\'t set', function() {
+                var result = this.view.getData();
+
+                expect(result.start_year).toBe(null);
+                expect(result.end_year).toBe(null);
+            });
+
+            it('should return integer values for start_year and end_year', function() {
+                var year = 2000;
+                
+                this.view.$('.startYear').val(year);
+                this.view.$('.endYear').val(year);
+
+                var result = this.view.getData();
+
+                expect(result.start_year).toBe(year);
+                expect(result.end_year).toBe(year);
+            });
+
+            it('should retrieve string values for title and organization', function() {
+                this.view.$('.organization').val('organization');
+                this.view.$('.title').val('title');
+
+                var result = this.view.getData();
+
+                expect(result.organization).toBe('organization');
+                expect(result.title).toBe('title');
+            });
         });
 
         describe('save', function() {
