@@ -12,6 +12,8 @@ define([
             this.view = new FullView({
                 model: new Backbone.Model()
             });
+
+            spyOn(this.view.model, 'save');
         });
 
         describe('initialize', function() {
@@ -23,18 +25,20 @@ define([
                 }).toThrow();
             });
 
-            it('should save the model when affiliations change', function() {
-                spyOn(this.view.model, 'save');
-
-                this.view.collection.trigger('change');
+            it('should save the model when affiliations are added', function() {
+                this.view.collection.add({title: 'testTitle'});
 
                 expect(this.view.model.save).toHaveBeenCalled();
             });
 
-            it('should save the model when affiliations are added', function() {
-                spyOn(this.view.model, 'save');
+            it('should save the model when affiliations change', function() {
+                this.view.collection.add({title: 'testTitle'});
 
-                this.view.collection.trigger('add');
+                // I'm testing the change event, so want to clear the call that
+                // was fired by add
+                this.view.model.save.calls.reset();
+
+                this.view.collection.at(0).set({title: 'anotherTitle'});
 
                 expect(this.view.model.save).toHaveBeenCalled();
             });
