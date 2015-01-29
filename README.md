@@ -16,6 +16,12 @@ grunt build
 python -m http.server
 ```
 
+Don't want to concatenate / minify?
+
+```
+grunt dev
+```
+
 ## test
 
 ```

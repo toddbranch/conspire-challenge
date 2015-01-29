@@ -19,7 +19,7 @@ module.exports = function(grunt) {
             compile: {
                 options: {
                     mainConfigFile: 'main.js',
-                    out: 'scripts/optimized.js',
+                    out: 'dist.js',
                     name: 'main',
                     paths: {
                         jquery: 'empty:',
@@ -32,12 +32,19 @@ module.exports = function(grunt) {
                     optimize: 'uglify2'
                 }
             }
+        },
+        shell: {
+            copyMain: {
+                command: 'cp main.js dist.js'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('test', ['jasmine']);
     grunt.registerTask('build', ['jasmine', 'requirejs']);
+    grunt.registerTask('dev', ['shell:copyMain']);
 };
