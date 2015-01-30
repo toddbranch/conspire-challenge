@@ -1,10 +1,12 @@
 define([
     'backbone',
     'handlebars',
+    'underscore',
     'text!scripts/templates/editAffiliation.handlebars'
 ], function(
     Backbone,
     Handlebars,
+    _,
     template
 ) {
     'use strict';
@@ -25,8 +27,10 @@ define([
         save: function() {
             this.model.set(this.getData(), {validate: true});
 
-            if (this.model.validationError) {
-                this.$('.error').html(this.model.validationError);
+            var error = _.first(this.model.validationError);
+
+            if (error) {
+                this.$('.error').html(error);
                 this.$('.error').removeClass('hide');
             } else {
                 this.$('.error').addClass('hide');

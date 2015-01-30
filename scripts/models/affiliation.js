@@ -9,22 +9,21 @@ define([
 
     return Backbone.Model.extend({
         validate: function(attrs) {
-            var errors = this.getAttributeErrors(attrs);
+            var errors = [];
 
-            if (errors) {
-                return errors;
-            }
+            errors.push(this.validateOrganization(attrs.organization));
+            errors.push(this.validateTitle(attrs.title));
+            errors.push(this.validateStartYear(attrs.start_year));
+            errors.push(this.validateEndYear(attrs.end_year));
+            errors.push(this.validateEndFollowsStart(attrs.start_year, attrs.end_year));
 
-            if (attrs.start_year > attrs.end_year && !_.isNull(attrs.end_year)) {
-                return 'end year can\'t be before start!';
-            }
+            return _.compact(errors);
         },
 
-        getAttributeErrors: function(attrs) {
-            return this.validateOrganization(attrs.organization) ||
-                this.validateTitle(attrs.title) ||
-                this.validateStartYear(attrs.start_year) ||
-                this.validateEndYear(attrs.end_year);
+        validateEndFollowsStart: function(startYear, endYear) {
+            if (startYear > endYear && !_.isNull(endYear)) {
+                return 'end year can\'t be before start!';
+            }
         },
 
         validateOrganization: function(organization) {

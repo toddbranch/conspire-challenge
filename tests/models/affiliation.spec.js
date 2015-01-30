@@ -1,15 +1,55 @@
 define([
     'scripts/models/affiliation',
-    'backbone'
+    'backbone',
+    'underscore'
 ], function(
     AffiliationModel,
-    Backbone
+    Backbone,
+    _
 ) {
     'use strict';
 
     describe('Affiliation Model', function() {
         beforeEach(function() {
             this.model = new AffiliationModel();
+        });
+
+        describe('validate', function() {
+            var goodAttrs;
+
+            beforeEach(function() {
+                goodAttrs = {
+                    organization: 'Dunder Mifflin',
+                    title: 'Salesman',
+                    start_year: 2005,
+                    end_year: 2013
+                };
+            });
+
+            it('should return an empty array on validation success', function() {
+                expect(this.model.validate(goodAttrs)).toEqual([]);
+            });
+
+            it('should return an array of errors on validation failure', function() {
+                var result = this.model.validate({});
+
+                expect(_.isArray(result)).toBe(true);
+                expect(result.length > 0).toBe(true);
+            });
+        });
+
+        describe('validateEndFollowsStart', function() {
+            it('should return nothing if end is after start', function() {
+                expect(this.model.validateEndFollowsStart(2000, 2001)).toBe(undefined);
+            });
+
+            it('should return nothing if end is null', function() {
+                expect(this.model.validateEndFollowsStart(2000, null)).toBe(undefined);
+            });
+
+            it('should return an error message otherwise', function() {
+                expect(_.isString(this.model.validateEndFollowsStart(2000, 1999))).toBe(true);
+            });
         });
 
         describe('isInt', function() {
