@@ -27,10 +27,10 @@ define([
         save: function() {
             this.model.set(this.getData(), {validate: true});
 
-            var error = _.first(this.model.validationError);
+            var errors = this.model.validationError;
 
-            if (error) {
-                this.$('.error').html(error);
+            if (errors.length > 0) {
+                this.$('.error').html(_.first(errors));
                 this.$('.error').removeClass('hide');
             } else {
                 this.$('.error').addClass('hide');
