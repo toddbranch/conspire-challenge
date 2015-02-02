@@ -29,7 +29,7 @@ define([
 
             var errors = this.model.validationError;
 
-            if (errors.length > 0) {
+            if (errors) {
                 this.$('.error').html(_.first(errors));
                 this.$('.error').removeClass('hide');
             } else {

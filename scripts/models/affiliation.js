@@ -17,7 +17,13 @@ define([
             errors.push(this.validateEndYear(attrs.end_year));
             errors.push(this.validateEndFollowsStart(attrs.start_year, attrs.end_year));
 
-            return _.compact(errors);
+            errors = _.compact(errors);
+
+            if (errors.length > 0) {
+                return errors;
+            }
+
+            // have to return undefined to ensure 'change' event is fired
         },
 
         validateEndFollowsStart: function(startYear, endYear) {

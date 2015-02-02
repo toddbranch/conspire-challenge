@@ -26,8 +26,8 @@ define([
                 };
             });
 
-            it('should return an empty array on validation success', function() {
-                expect(this.model.validate(goodAttrs)).toEqual([]);
+            it('should return undefined on validation success', function() {
+                expect(this.model.validate(goodAttrs)).toEqual();
             });
 
             it('should return an array of errors on validation failure', function() {
