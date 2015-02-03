@@ -20,9 +20,7 @@ define([
             it('should throw if not passed a model', function() {
                 this.view.model = null;
 
-                expect(function() {
-                    this.view.initialize();
-                }).toThrow();
+                expect(this.view.initialize).toThrow();
             });
 
             it('should save the model when affiliations are added', function() {

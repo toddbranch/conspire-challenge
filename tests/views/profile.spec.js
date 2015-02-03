@@ -18,9 +18,7 @@ define([
             it('should throw if not passed a model', function() {
                 this.view.model = null;
 
-                expect(function() {
-                    this.view.initialize();
-                }).toThrow();
+                expect(this.view.initialize).toThrow();
             });
 
             it('renders itself when its model changes', function() {

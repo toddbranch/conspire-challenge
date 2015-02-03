@@ -18,9 +18,7 @@ define([
             it('should throw if not passed a collection', function() {
                 this.view.collection = null;
 
-                expect(function() {
-                    this.view.initialize();
-                }).toThrow();
+                expect(this.view.initialize).toThrow();
             });
 
             it('renders itself when its collection syncs', function() {

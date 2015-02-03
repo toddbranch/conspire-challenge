@@ -51,5 +51,5 @@ require([
 
     var profilesView = new ProfilesView({collection: profiles});
 
-    $('.container').prepend(profilesView.render().$el);
+    $('.container').html(profilesView.render().$el);
 });

@@ -21,9 +21,8 @@ define([
         describe('initialize', function() {
             it('should throw if not passed a collection', function() {
                 this.view.collection = null;
-                expect(function() {
-                    this.view.initialize();
-                }).toThrow();
+
+                expect(this.view.initialize).toThrow();
             });
 
             it('should re-render itself when any end_year changes', function() {

@@ -90,3 +90,13 @@ input[type="text"] {
     -ms-user-select: none;
     user-select: none;
 }
+
+.initial {
+    text-align: center;
+}
+
+.loader {
+    height: 200px;
+    margin-right: 0px;
+    margin-top: -50px;
+}

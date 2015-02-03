@@ -20,9 +20,7 @@ define([
             it('should throw if not initialized with a model', function() {
                 this.view.model = null;
 
-                expect(function() {
-                    this.view.initialize();
-                }).toThrow();
+                expect(this.view.initialize).toThrow();
             });
         });
 
