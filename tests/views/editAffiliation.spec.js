@@ -24,77 +24,34 @@ define([
             });
         });
 
-        describe('getData', function() {
-            beforeEach(function() {
-                this.view.render();
-            });
-
-            it('should return null for start_year and end_year if they aren\'t set', function() {
-                var result = this.view.getData();
-
-                expect(result.start_year).toBe(null);
-                expect(result.end_year).toBe(null);
-            });
-
-            it('should return integer values for start_year and end_year', function() {
-                var year = 2000;
-                
-                this.view.$('.startYear').val(year);
-                this.view.$('.endYear').val(year);
-
-                var result = this.view.getData();
-
-                expect(result.start_year).toBe(year);
-                expect(result.end_year).toBe(year);
-            });
-
-            it('should retrieve string values for title and organization', function() {
-                this.view.$('.organization').val('organization');
-                this.view.$('.title').val('title');
-
-                var result = this.view.getData();
-
-                expect(result.organization).toBe('organization');
-                expect(result.title).toBe('title');
-            });
-        });
-
         describe('save', function() {
-            var getDataSpy;
-            var badData;
-            var goodData;
-
             beforeEach(function() {
                 this.view.render();
-                getDataSpy = spyOn(this.view, 'getData');
-
-                badData = {title: 1};
-                goodData = {
-                    organization: 'organization',
-                    title: 'title',
-                    start_year: 2000,
-                    end_year: 2010
-                };
             });
 
             it('shows the error element on error', function() {
-                getDataSpy.and.returnValue(badData);
-
+                // blank values for all elements will fail multiple validations
                 this.view.save();
 
                 expect(this.view.$('.error')).not.toHaveClass('hide');
             });
 
             it('populates the error element on error', function() {
-                getDataSpy.and.returnValue(badData);
-
+                // blank values for all elements will fail multiple validations
                 this.view.save();
 
                 expect(this.view.$('.error')).not.toBeEmpty();
             });
 
+            function populateWithData(view) {
+                view.$(view.selectors.startYear).val(2000);
+                view.$(view.selectors.endYear).val(2001);
+                view.$(view.selectors.organization).val('organization');
+                view.$(view.selectors.title).val('title');
+            }
+
             it('hides the error element on successful validation', function() {
-                getDataSpy.and.returnValue(goodData);
+                populateWithData(this.view);
 
                 this.view.save();
 
@@ -102,7 +59,7 @@ define([
             });
 
             it('should trigger a save event on successful validation for external monitors', function() {
-                getDataSpy.and.returnValue(goodData);
+                populateWithData(this.view);
 
                 var mockView = new Backbone.View();
 
@@ -121,10 +78,20 @@ define([
                 expect(this.view.render()).toBe(this.view);
             });
 
-            it('should put content in its $el', function() {
+            it('should display organization, title, start date, end date', function() {
+                this.view.model.set({
+                    title: 'Barista',
+                    organization: 'Starbucks',
+                    start_year: 2000,
+                    end_year: 2001
+                });
+
                 this.view.render();
 
-                expect(this.view.$el).not.toBeEmpty();
+                expect(this.view.$(this.view.selectors.title)).toHaveValue('Barista');
+                expect(this.view.$(this.view.selectors.organization)).toHaveValue('Starbucks');
+                expect(this.view.$(this.view.selectors.startYear)).toHaveValue('2000');
+                expect(this.view.$(this.view.selectors.endYear)).toHaveValue('2001');
             });
         });
     });

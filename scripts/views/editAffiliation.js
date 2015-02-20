@@ -14,6 +14,14 @@ define([
     return Backbone.View.extend({
         template: Handlebars.compile(template),
 
+        selectors: {
+            organization: '.organization',
+            title: '.title',
+            startYear: '.startYear',
+            endYear: '.endYear',
+            error: '.error'
+        },
+
         events: {
             'click .save': 'save',
         },
@@ -30,10 +38,10 @@ define([
             var errors = this.model.validationError;
 
             if (errors) {
-                this.$('.error').html(_.first(errors));
-                this.$('.error').removeClass('hide');
+                this.$(this.selectors.error).html(_.first(errors));
+                this.$(this.selectors.error).removeClass('hide');
             } else {
-                this.$('.error').addClass('hide');
+                this.$(this.selectors.error).addClass('hide');
                 this.trigger('save');
             }
         },
@@ -41,14 +49,14 @@ define([
         getData: function() {
             var data = {};
 
-            data.organization = this.$('.organization').val();
-            data.title = this.$('.title').val();
+            data.organization = this.$(this.selectors.organization).val();
+            data.title = this.$(this.selectors.organization).val();
 
-            var startYear = this.$('.startYear').val();
-            data.start_year = startYear ? parseInt(startYear): null;
+            var startYear = this.$(this.selectors.startYear).val();
+            data.start_year = startYear ? parseInt(startYear) : null;
 
-            var endYear = this.$('.endYear').val();
-            data.end_year = endYear ? parseInt(endYear): null;
+            var endYear = this.$(this.selectors.endYear).val();
+            data.end_year = endYear ? parseInt(endYear) : null;
 
             return data;
         },

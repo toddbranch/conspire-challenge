@@ -46,37 +46,30 @@ define([
             });
         });
 
-        describe('getTemplateData', function() {
-            it('should return JSON of model if end_year is specified', function() {
-                var model = new Backbone.Model({
-                    start_year: 2000,
-                    end_year: 2010
-                });
-
-                expect(this.view.getTemplateData(model).start_year).toEqual(2000);
-                expect(this.view.getTemplateData(model).end_year).toEqual(2010);
-            });
-
-            it('should replace end_year with \'present\' if it isn\'t specified', function() {
-                var model = new Backbone.Model({
-                    start_year: 2000,
-                    end_year: null
-                });
-
-                expect(this.view.getTemplateData(model).start_year).toEqual(2000);
-                expect(this.view.getTemplateData(model).end_year).toEqual('present');
-            });
-        });
-
         describe('render', function() {
             it('should return itself for chaining', function() {
                 expect(this.view.render()).toBe(this.view);
             });
 
-            it('should put content in its $el', function() {
+            it('should display organization, title, start date, end date', function() {
+                this.view.model.set({
+                    title: 'Barista',
+                    organization: 'Starbucks',
+                    start_year: 2000,
+                    end_year: 2001
+                });
                 this.view.render();
 
-                expect(this.view.$el).not.toBeEmpty();
+                expect(this.view.$el).toHaveText(/Barista/);
+                expect(this.view.$el).toHaveText(/Starbucks/);
+                expect(this.view.$el).toHaveText(/2000/);
+                expect(this.view.$el).toHaveText(/2001/);
+            });
+
+            it('should display \'present\' if end date isn\'t specified', function() {
+                this.view.render();
+
+                expect(this.view.$el).toHaveText(/present/);
             });
         });
     });

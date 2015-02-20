@@ -13,7 +13,9 @@ define([
         beforeEach(function() {
             this.view = new AffiliationsView({
                 collection: new AffiliationsCollection([
-                    {end_year: 2000}
+                    {end_year: 2000},
+                    {end_year: 2001},
+                    {end_year: 2002}
                 ])
             });
         });
@@ -40,18 +42,18 @@ define([
                 expect(this.view.render()).toBe(this.view);
             });
 
-            it('should ensure the affiliations are sorted', function() {
-                spyOn(this.view.collection, 'sort');
-
+            it('should display all the affiliations in the collection', function() {
                 this.view.render();
 
-                expect(this.view.collection.sort).toHaveBeenCalled();
+                expect(this.view.$('div.affiliation').length === 3).toBe(true);
             });
 
-            it('should put content in its $el', function() {
+            it('should ensure the affiliations are sorted', function() {
                 this.view.render();
 
-                expect(this.view.$el).not.toBeEmpty();
+                expect(this.view.$('div.affiliation')[0]).toHaveText(/2002/);
+                expect(this.view.$('div.affiliation')[1]).toHaveText(/2001/);
+                expect(this.view.$('div.affiliation')[2]).toHaveText(/2000/);
             });
         });
     });
