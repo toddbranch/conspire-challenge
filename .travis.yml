@@ -2,6 +2,7 @@
 language: node_js
 before-install:
   - "npm install -g grunt-cli"
+  - "npm install -g bower"
 
 install:
   - "npm install"
