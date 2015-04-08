@@ -18,7 +18,7 @@ define([
             });
         });
 
-        describe('initialize', function() {
+        describe('#initialize', function() {
             it('should throw if not passed a collection', function() {
                 this.view.collection = null;
 
@@ -36,7 +36,22 @@ define([
             });
         });
 
-        describe('render', function() {
+        describe('#modelSelected', function() {
+            it('should trigger a \'selected\' event when a child view is clicked', function() {
+                var mockView = new Backbone.View();
+
+                spyOn(mockView, 'render');
+
+                mockView.listenTo(this.view, 'selected', mockView.render);
+
+                this.view.render();
+                this.view.$el.children().first().click();
+
+                expect(mockView.render).toHaveBeenCalledWith(jasmine.any(Backbone.Model));
+            });
+        });
+
+        describe('#render', function() {
             it('should return this for chaining', function() {
                 expect(this.view.render()).toBe(this.view);
             });

@@ -37,7 +37,7 @@ define([
                 expect(this.view.$('.error')).toBeEmpty();
 
                 // blank values for all elements will fail multiple validations
-                this.view.save();
+                this.view.$('.save').click();
 
                 expect(this.view.$('.error')).not.toHaveClass('hide');
                 expect(this.view.$('.error')).not.toBeEmpty();
@@ -53,12 +53,12 @@ define([
             it('hides the error element on successful validation', function() {
                 populateWithData(this.view);
 
-                this.view.save();
+                this.view.$('.save').click();
 
                 expect(this.view.$('.error')).toHaveClass('hide');
             });
 
-            it('should trigger a save event on successful validation for external monitors', function() {
+            it('should trigger a \'save\' event on successful validation', function() {
                 populateWithData(this.view);
 
                 var mockView = new Backbone.View();
@@ -67,18 +67,24 @@ define([
 
                 mockView.listenTo(this.view, 'save', mockView.render);
 
-                this.view.save();
+                this.view.$('.save').click();
 
                 expect(mockView.render).toHaveBeenCalled();
             });
 
             it('should put the entered values into the model', function() {
+                expect(this.view.model.toJSON()).toEqual({});
+
                 populateWithData(this.view);
 
-                this.view.save();
+                this.view.$('.save').click();
 
-                expect(this.view.model.get('title')).toBe('title');
-                expect(this.view.model.get('organization')).toBe('organization');
+                expect(this.view.model.toJSON()).toEqual({
+                    title: 'title',
+                    organization: 'organization',
+                    start_year: 2000,
+                    end_year: 2001
+                });
             });
         });
 

@@ -41,7 +41,8 @@ define([
 
                 mockView.listenTo(this.view, 'edit', mockView.render);
 
-                this.view.edit();
+                this.view.render();
+                this.view.$('.edit').click();
 
                 expect(mockView.render).toHaveBeenCalled();
             });

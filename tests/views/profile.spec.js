@@ -37,6 +37,20 @@ define([
             });
         });
 
+        describe('#clicked', function() {
+            it('should trigger a \'clicked\' event', function() {
+                var mockView = new Backbone.View();
+
+                spyOn(mockView, 'render');
+
+                mockView.listenTo(this.view, 'clicked', mockView.render);
+
+                this.view.$el.click();
+
+                expect(mockView.render).toHaveBeenCalled();
+            });
+        });
+
         describe('render', function() {
             beforeEach(function() {
                 expect(this.view.$el).toBeEmpty();

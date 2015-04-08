@@ -16,14 +16,6 @@ define([
             });
         });
 
-        describe('#showEditView', function() {
-
-        });
-
-        describe('#showDisplayView', function() {
-
-        });
-
         describe('#render', function() {
             it('should return itself for chaining', function() {
                 expect(this.view.render()).toBe(this.view);
