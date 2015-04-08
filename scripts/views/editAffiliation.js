@@ -50,7 +50,7 @@ define([
             var data = {};
 
             data.organization = this.$(this.selectors.organization).val();
-            data.title = this.$(this.selectors.organization).val();
+            data.title = this.$(this.selectors.title).val();
 
             var startYear = this.$(this.selectors.startYear).val();
             data.start_year = startYear ? parseInt(startYear) : null;

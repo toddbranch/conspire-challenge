@@ -15,11 +15,6 @@ require.config({
             'bower_components/underscore/underscore'
         ],
 
-        bootstrap: [
-            '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min',
-            'bower_components/bootstrap/dist/js/bootstrap'
-        ],
-
         handlebars: [
             '//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min',
             'bower_components/handlebars/handlebars'
@@ -33,23 +28,17 @@ require.config({
 
     shim: {
         'backbone': ['jquery', 'underscore'],
-        'bootstrap': ['jquery']
     }
 });
 
 require([
-    'scripts/collections/profiles',
-    'scripts/views/profiles',
+    'scripts/views/app',
     'jquery'
 ], function(
-    ProfilesCollection,
-    ProfilesView,
+    AppView,
     $
 ) {
-    var profiles = new ProfilesCollection();
-    profiles.fetch();
+    var app = new AppView();
 
-    var profilesView = new ProfilesView({collection: profiles});
-
-    $('.container').html(profilesView.render().$el);
+    $('.container').html(app.render().$el);
 });

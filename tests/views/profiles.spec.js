@@ -1,16 +1,20 @@
 define([
     'scripts/views/profiles',
-    'backbone'
+    'backbone',
+    'underscore'
 ], function(
     ProfilesView,
-    Backbone
+    Backbone,
+    _
 ) {
     'use strict';
 
     describe('Profiles View', function() {
         beforeEach(function() {
             this.view = new ProfilesView({
-                collection: new Backbone.Collection()
+                collection: new Backbone.Collection([
+                    {}, {}, {}
+                ])
             });
         });
 
@@ -18,17 +22,17 @@ define([
             it('should throw if not passed a collection', function() {
                 this.view.collection = null;
 
-                expect(this.view.initialize).toThrow();
+                expect(
+                    _.bind(this.view.initialize, this)
+                ).toThrowError('must be initialized with a collection');
             });
 
-            it('renders itself when its collection syncs', function() {
-                spyOn(this.view, 'render');
-
-                this.view.initialize();
+            it('should render itself when its collection syncs', function() {
+                expect(this.view.$el).toBeEmpty();
 
                 this.view.collection.trigger('sync');
 
-                expect(this.view.render).toHaveBeenCalled();
+                expect(this.view.$el).not.toBeEmpty();
             });
         });
 
@@ -37,10 +41,12 @@ define([
                 expect(this.view.render()).toBe(this.view);
             });
 
-            it('should put content in its $el', function() {
+            it('should render it\'s constituent models', function() {
+                expect(this.view.$el).toBeEmpty();
+
                 this.view.render();
 
-                expect(this.view.$el).not.toBeEmpty();
+                expect(this.view.$el.children().length).toBe(3);
             });
         });
     });

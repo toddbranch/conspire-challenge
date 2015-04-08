@@ -1,11 +1,13 @@
 define([
     'scripts/views/editAffiliation',
     'backbone',
-    'scripts/models/affiliation'
+    'scripts/models/affiliation',
+    'underscore'
 ], function(
     EditView,
     Backbone,
-    AffiliationModel
+    AffiliationModel,
+    _
 ) {
     'use strict';
 
@@ -16,30 +18,28 @@ define([
             });
         });
 
-        describe('initialize', function() {
+        describe('#initialize', function() {
             it('should throw if not initialized with a model', function() {
                 this.view.model = null;
 
-                expect(this.view.initialize).toThrow();
+                expect(_.bind(this.view.initialize, this))
+                    .toThrowError('must be initialized with a model');
             });
         });
 
-        describe('save', function() {
+        describe('#save', function() {
             beforeEach(function() {
                 this.view.render();
             });
 
             it('shows the error element on error', function() {
+                expect(this.view.$('.error')).toHaveClass('hide');
+                expect(this.view.$('.error')).toBeEmpty();
+
                 // blank values for all elements will fail multiple validations
                 this.view.save();
 
                 expect(this.view.$('.error')).not.toHaveClass('hide');
-            });
-
-            it('populates the error element on error', function() {
-                // blank values for all elements will fail multiple validations
-                this.view.save();
-
                 expect(this.view.$('.error')).not.toBeEmpty();
             });
 
@@ -71,9 +71,18 @@ define([
 
                 expect(mockView.render).toHaveBeenCalled();
             });
+
+            it('should put the entered values into the model', function() {
+                populateWithData(this.view);
+
+                this.view.save();
+
+                expect(this.view.model.get('title')).toBe('title');
+                expect(this.view.model.get('organization')).toBe('organization');
+            });
         });
 
-        describe('render', function() {
+        describe('#render', function() {
             it('should return itself for chaining', function() {
                 expect(this.view.render()).toBe(this.view);
             });

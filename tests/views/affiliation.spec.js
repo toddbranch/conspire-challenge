@@ -1,13 +1,33 @@
 define([
-    'scripts/views/affiliation'
+    'scripts/views/affiliation',
+    'backbone',
+    'underscore'
 ], function(
-    AffiliationView
+    AffiliationView,
+    Backbone,
+    _
 ) {
     'use strict';
 
     describe('Affiliation View', function() {
-        describe('render', function() {
+        beforeEach(function() {
+            this.view = new AffiliationView({
+                model: new Backbone.Model()
+            });
+        });
 
+        describe('#showEditView', function() {
+
+        });
+
+        describe('#showDisplayView', function() {
+
+        });
+
+        describe('#render', function() {
+            it('should return itself for chaining', function() {
+                expect(this.view.render()).toBe(this.view);
+            });
         });
     });
 });

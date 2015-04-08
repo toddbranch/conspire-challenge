@@ -1,12 +1,10 @@
 define([
     'backbone',
     'handlebars',
-    'scripts/views/full',
     'text!scripts/templates/profile.handlebars'
 ], function(
     Backbone,
     Handlebars,
-    FullProfileView,
     template
 ) {
     'use strict';
@@ -14,7 +12,7 @@ define([
     return Backbone.View.extend({
         tagName: 'li',
 
-        className: 'profile',
+        className: 'profile noselect',
 
         template: Handlebars.compile(template),
 
@@ -22,9 +20,8 @@ define([
             click: 'clicked'
         },
 
-        clicked: function(e) {
-            var view = new FullProfileView({model: this.model});
-            view.render();
+        clicked: function() {
+            this.trigger('clicked', this.model);
         },
 
         initialize: function() {

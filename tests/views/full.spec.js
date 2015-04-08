@@ -1,16 +1,27 @@
 define([
     'scripts/views/full',
-    'backbone'
+    'backbone',
+    'underscore'
 ], function(
     FullView,
-    Backbone
+    Backbone,
+    _
 ) {
     'use strict';
 
     describe('Full View', function() {
         beforeEach(function() {
             this.view = new FullView({
-                model: new Backbone.Model()
+                model: new Backbone.Model({
+                    name: 'Jim Halpert',
+                    addresses: [
+                        'jim@dunder-mifflin.com',
+                        'paperguy@gmail.com'
+                    ],
+                    affiliations: [
+                        {title: 'Salesman'}
+                    ]
+                })
             });
 
             spyOn(this.view.model, 'save');
@@ -20,37 +31,43 @@ define([
             it('should throw if not passed a model', function() {
                 this.view.model = null;
 
-                expect(this.view.initialize).toThrow();
+                expect(_.bind(this.view.initialize, this))
+                    .toThrowError('must be initialized with a model');
             });
 
             it('should save the model when affiliations are added', function() {
-                this.view.collection.add({title: 'testTitle'});
+                this.view.collection.add({title: 'Programmer'});
 
                 expect(this.view.model.save).toHaveBeenCalled();
             });
 
             it('should save the model when affiliations change', function() {
-                this.view.collection.add({title: 'testTitle'});
-
-                // I'm testing the change event, so want to clear the call that
-                // was fired by add
-                this.view.model.save.calls.reset();
-
-                this.view.collection.at(0).set({title: 'anotherTitle'});
+                this.view.collection.at(0).set({title: 'Program Manager'});
 
                 expect(this.view.model.save).toHaveBeenCalled();
             });
         });
 
         describe('render', function() {
+            beforeEach(function() {
+                expect(this.view.$el).toBeEmpty();
+            });
+
             it('should return this for chaining', function() {
                 expect(this.view.render()).toBe(this.view);
             });
 
-            it('should put content in its $el', function() {
+            it('should display name', function() {
                 this.view.render();
 
-                expect(this.view.$el).not.toBeEmpty();
+                expect(this.view.$el).toContainText('Jim Halpert');
+            });
+
+            it('should display each email address', function() {
+                this.view.render();
+
+                expect(this.view.$el).toContainText('jim@dunder-mifflin.com');
+                expect(this.view.$el).toContainText('paperguy@gmail.com');
             });
         });
     });

@@ -1,11 +1,13 @@
 define([
     'scripts/views/affiliations',
     'scripts/collections/affiliations',
-    'backbone'
+    'backbone',
+    'underscore'
 ], function(
     AffiliationsView,
     AffiliationsCollection,
-    Backbone
+    Backbone,
+    _
 ) {
     'use strict';
 
@@ -24,16 +26,16 @@ define([
             it('should throw if not passed a collection', function() {
                 this.view.collection = null;
 
-                expect(this.view.initialize).toThrow();
+                expect(_.bind(this.view.initialize, this))
+                    .toThrowError('must be initialized with a collection');
             });
 
             it('should re-render itself when any end_year changes', function() {
-                spyOn(this.view, 'render');
+                expect(this.view.$el).toBeEmpty();
 
-                this.view.initialize();
                 this.view.collection.at(0).set({end_year: 2001});
 
-                expect(this.view.render).toHaveBeenCalled();
+                expect(this.view.$el).not.toBeEmpty();
             });
         });
 
@@ -45,15 +47,15 @@ define([
             it('should display all the affiliations in the collection', function() {
                 this.view.render();
 
-                expect(this.view.$('div.affiliation').length === 3).toBe(true);
+                expect(this.view.$('div.affiliation').length).toBe(3);
             });
 
             it('should ensure the affiliations are sorted', function() {
                 this.view.render();
 
-                expect(this.view.$('div.affiliation')[0]).toHaveText(/2002/);
-                expect(this.view.$('div.affiliation')[1]).toHaveText(/2001/);
-                expect(this.view.$('div.affiliation')[2]).toHaveText(/2000/);
+                expect(this.view.$('div.affiliation')[0]).toContainText('2002');
+                expect(this.view.$('div.affiliation')[1]).toContainText('2001');
+                expect(this.view.$('div.affiliation')[2]).toContainText('2000');
             });
         });
     });

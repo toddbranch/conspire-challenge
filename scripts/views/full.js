@@ -4,7 +4,6 @@ define([
     'scripts/collections/affiliations',
     'scripts/views/affiliations',
     'text!scripts/templates/full.handlebars',
-    'bootstrap'
 ], function(
     Backbone,
     Handlebars,
@@ -15,8 +14,6 @@ define([
     'use strict';
 
     return Backbone.View.extend({
-        className: 'modal fade',
-
         template: Handlebars.compile(template),
 
         initialize: function() {
@@ -30,10 +27,6 @@ define([
             this.listenTo(this.collection, 'add', this.updateAffiliations);
         },
 
-        events: {
-            'hidden.bs.modal': 'remove'
-        },
-
         updateAffiliations: function() {
             this.model.save({affiliations: this.collection.toJSON()});
         },
@@ -43,8 +36,6 @@ define([
 
             var affiliationsView = new AffiliationsView({collection: this.collection});
             this.$('ul').after(affiliationsView.render().$el);
-
-            this.$el.modal('show');
 
             return this;
         }

@@ -1,20 +1,17 @@
 define([
     'backbone',
     'handlebars',
-    'scripts/views/profile',
-    'text!scripts/templates/profiles.handlebars'
+    'scripts/views/profile'
 ], function(
     Backbone,
     Handlebars,
-    ProfileView,
-    template
+    ProfileView
 ) {
     'use strict';
 
     return Backbone.View.extend({
-        className: 'profiles',
-
-        template: Handlebars.compile(template),
+        className: 'profiles col-md-4',
+        tagName: 'ul',
 
         initialize: function() {
             if (!(this.collection instanceof Backbone.Collection)) {
@@ -24,13 +21,21 @@ define([
             this.listenTo(this.collection, 'sync', this.render);
         },
 
-        render: function() {
-            this.$el.html(this.template());
+        modelSelected: function(model) {
+            this.trigger('selected', model);
+        },
 
-            this.collection.each(function(profile) {
-                var view = new ProfileView({model: profile});
-                this.$('ul').append(view.render().$el);
-            }, this);
+        render: function() {
+            this.$el.empty();
+
+            this.collection.each(
+                function(profile) {
+                    var view = new ProfileView({model: profile});
+                    this.$el.append(view.render().$el);
+                    this.listenTo(view, 'clicked', this.modelSelected);
+                },
+                this
+            );
 
             return this;
         }

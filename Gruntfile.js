@@ -12,7 +12,8 @@ module.exports = function(grunt) {
                 templateOptions: {
                     requireConfigFile: 'main.js'
                 },
-                summary: true
+                summary: true,
+                keepRunner: true
             }
         },
         requirejs: {
