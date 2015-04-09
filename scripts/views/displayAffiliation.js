@@ -28,18 +28,13 @@ define([
             this.trigger('edit');
         },
 
-        getTemplateData: function(model) {
-            var json = model.toJSON();
-
-            if (!json.end_year) {
-                json.end_year = 'present';
-            }
-
-            return json;
-        },
-
         render: function() {
-            this.$el.html(this.template(this.getTemplateData(this.model)));
+            this.$el.html(this.template({
+                organization: this.model.get('organization'),
+                title: this.model.get('title'),
+                start: this.model.get('start_year'),
+                end: this.model.get('end_year') || 'present'
+            }));
 
             return this;
         }

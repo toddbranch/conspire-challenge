@@ -4,12 +4,14 @@ define([
     'scripts/collections/affiliations',
     'scripts/views/affiliations',
     'text!scripts/templates/full.handlebars',
+    'scripts/views/editableText'
 ], function(
     Backbone,
     Handlebars,
     AffiliationsCollection,
     AffiliationsView,
-    template
+    template,
+    EditableTextView
 ) {
     'use strict';
 
@@ -22,9 +24,15 @@ define([
             }
 
             this.collection = new AffiliationsCollection(this.model.get('affiliations'));
-
             this.listenTo(this.collection, 'change', this.updateAffiliations);
             this.listenTo(this.collection, 'add', this.updateAffiliations);
+
+            this.nameView = new EditableTextView({text: this.model.get('name')});
+            this.listenTo(this.nameView, 'update', this.updateName);
+        },
+
+        updateName: function(name) {
+            this.model.save({name: name});
         },
 
         updateAffiliations: function() {
@@ -32,10 +40,15 @@ define([
         },
 
         render: function() {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template({
+                image: this.model.get('image'),
+                addresses: this.model.get('addresses')
+            }));
+
+            this.$('.name').append(this.nameView.render().$el);
 
             var affiliationsView = new AffiliationsView({collection: this.collection});
-            this.$('ul').after(affiliationsView.render().$el);
+            this.$('.addresses').after(affiliationsView.render().$el);
 
             return this;
         }
